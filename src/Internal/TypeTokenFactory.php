@@ -112,7 +112,8 @@ final class TypeTokenFactory
         }
 
         if ($property !== null && $property->isDefault()) {
-            $defaultProperty = $property->getDeclaringClass()->getDefaultProperties()[$property->getName()];
+        	$defaultProperties = $property->getDeclaringClass()->getDefaultProperties();
+        	$defaultProperty = $defaultProperties[$property->getName()] ?? null;
             if ($defaultProperty !== null) {
                 return $this->checkGenericArray(
                     TypeToken::createFromVariable($defaultProperty),
