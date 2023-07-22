@@ -72,10 +72,15 @@ final class TypeAdapterProvider
             return $this->typeAdapters[$key];
         }
 
-        foreach ($this->typeAdapterFactories as $typeAdapterFactory) {
-            if ($typeAdapterFactory === $skip) {
-                continue;
-            }
+        $factoryStartIndex = array_search($skip, $this->typeAdapterFactories, true);
+        if ($factoryStartIndex === false) {
+        	$factoryStartIndex = 0;
+        } else {
+        	$factoryStartIndex++;
+        }
+
+        for ($i = $factoryStartIndex; $i < count($this->typeAdapterFactories); $i++) {
+        	$typeAdapterFactory = $this->typeAdapterFactories[$i];
 
             $adapter = $typeAdapterFactory->create($type, $this);
             if ($adapter === null) {
